@@ -46,7 +46,7 @@ class Player extends GameObject {
         this.vy = 0;
         this.forces = [];
         this.onGround = false;
-        this.maxSpeed = 0.2;
+        this.maxSpeed = maxSpeed;
     }
 
     // adds a force to be applied
@@ -61,8 +61,8 @@ class Player extends GameObject {
 
         // TODO - get rid of the magic number 32
         function checkCollision(obj1, obj2) {
-            let w = 32;
-            let h = 32;
+            let w = blockSize;
+            let h = blockSize;
             var collideX = obj1.x < obj2.x + w && obj1.x + w > obj2.x;
             var collideY = obj1.y < obj2.y + h && obj1.y + h > obj2.y;
             return collideX && collideY;
@@ -126,7 +126,7 @@ class Player extends GameObject {
 
     jump() {
         if(this.onGround) {
-            this.vy -= 0.35;
+            this.vy -= jumpVelocity;
             this.onGround = false;
         }
     }

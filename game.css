@@ -10,9 +10,9 @@ body {
     overflow: hidden;
 }
 
-div {
+/* div {
     line-height: 0;
-}
+} */
 
 span {
     line-height: 32px;
@@ -39,4 +39,34 @@ span {
     background-color: mediumseagreen;
     position: absolute;
     border-radius: 50%;
+}
+
+button {
+    height: 30px;
+    width: 150px;
+    margin: 0;
+}
+
+#center {
+    width: 500px;
+    margin: 0 auto;
+}
+
+form {
+    background-color: #fff9;
+    padding: 10px;
+}
+
+form div {
+    display: flex;
+}
+
+form div label {
+    flex: 1;
+    padding: 5px;
+}
+
+form div input {
+    flex: 2;
+    padding: 5px;
 }

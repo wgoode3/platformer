@@ -1,15 +1,6 @@
 // various game constants
 const game = document.getElementById("game");
 const objects = [];
-const blockSize = 32;
-// coefficent of friction
-const friction = 0.3;
-// gravity 
-const gravity = 0.5;
-// move force
-const moveForce = 1;
-const targetFPS = 60;
-const targetRefreshRate = 1/targetFPS;
 let timeDelta = targetRefreshRate;
 let currentTime = new Date();
 
@@ -42,7 +33,7 @@ for(let i=0; i<WORLD1.length; i++) {
 // let's add in the player as well
 const playerIndex = objects.length;
 objects.push(
-    new Player("player", new Vector2D(32, 32), 1, 1, true, true)
+    new Player("player", new Vector2D(playerStart.x, playerStart.y), 1, 1, true, true)
 );
 
 function drawGameboard() {
@@ -92,6 +83,17 @@ function applyUpdates() {
         }
     }
 }
+
+// resets the game
+document.getElementById("reset").addEventListener("click", function(e) {
+    // makes the button lose focus so space doesn't reclick it
+    e.target.blur(); 
+    let player = objects[playerIndex];
+    player.location = new Vector2D(playerStart.x, playerStart.y);
+    player.vx = 0;
+    player.vy = 0;
+    player.hasChanged = true;
+});
 
 // startup
 drawGameboard();
