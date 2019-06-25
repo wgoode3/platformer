@@ -1,3 +1,5 @@
+// player controls
+
 const upKey    = 38,
       downKey  = 40,
       leftKey  = 37, 
@@ -10,7 +12,7 @@ const keyMap = {
     'left':  false,
     'down':  false,
     'right': false,
-    'jump': false
+    'jump':  false
 };
 
 const axis = {

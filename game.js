@@ -1,5 +1,4 @@
-console.log("platformer starting...");
-
+// various game constants
 const game = document.getElementById("game");
 const objects = [];
 const blockSize = 32;
@@ -9,7 +8,8 @@ const friction = 0.3;
 const gravity = 0.5;
 // move force
 const moveForce = 1;
-const targetRefreshRate = 1/60;
+const targetFPS = 60;
+const targetRefreshRate = 1/targetFPS;
 let timeDelta = targetRefreshRate;
 let currentTime = new Date();
 
@@ -46,13 +46,13 @@ objects.push(
 );
 
 function drawGameboard() {
-    let s = ""
+    let s = "";
     for(let i=0; i<objects.length; i++) {
         let o = objects[i];
-        s += `<div id="${i}" `
+        s += `<div id="${i}" `;
         s += `class="${o.sprite}" `;
-        s += `style="left:${o.location.x}px;top:${o.location.y}px;">`
-        s += `</div>`
+        s += `style="left:${o.location.x}px;top:${o.location.y}px;">`;
+        s += `</div>`;
     }
     game.innerHTML = s;
 }
