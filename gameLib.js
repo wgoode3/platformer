@@ -46,7 +46,6 @@ class Player extends GameObject {
         this.vy = 0;
         this.forces = [];
         this.onGround = false;
-        this.maxSpeed = maxSpeed;
     }
 
     // adds a force to be applied
@@ -116,10 +115,10 @@ class Player extends GameObject {
             this.onGround = true;
         }
         // prevent the user from going too fast
-        if(this.vx > this.maxSpeed) {
-            this.vx = this.maxSpeed;
-        } else if(-this.vx > this.maxSpeed) {
-            this.vx = -this.maxSpeed;
+        if(this.vx > maxSpeed) {
+            this.vx = maxSpeed;
+        } else if(-this.vx > maxSpeed) {
+            this.vx = -maxSpeed;
         }
         this.hasChanged = false;
     }

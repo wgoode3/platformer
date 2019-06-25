@@ -23,21 +23,26 @@ document.getElementById("toggle").addEventListener("click", function(e) {
 });
 
 document.getElementById("jumpVelocity").addEventListener("change", function(e) {
-     jumpVelocity = e.target.value;
- });
+    e.target.blur(); 
+    jumpVelocity = e.target.value;
+});
 
 document.getElementById("gravity").addEventListener("change", function(e) {
+    e.target.blur(); 
     gravity = e.target.value;
 });
 
 document.getElementById("maxSpeed").addEventListener("change", function(e) {
+    e.target.blur(); 
     maxSpeed = e.target.value;
 });
 
 document.getElementById("moveForce").addEventListener("change", function(e) {
+    e.target.blur(); 
     moveForce = e.target.value;
 });
 
 document.getElementById("friction").addEventListener("change", function(e) {
+    e.target.blur(); 
     friction = e.target.value;
 });
