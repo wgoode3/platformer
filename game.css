@@ -1,0 +1,42 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: monospace;
+}
+
+body {
+    background: linear-gradient(#9ff, #6cf) fixed;
+    overflow: hidden;
+}
+
+div {
+    line-height: 0;
+}
+
+span {
+    line-height: 32px;
+}
+
+#game {
+    width: 640px;
+    height: 320px;
+    position: relative;
+    margin: 100px auto;
+}
+
+.block {
+    height: 32px;
+    width: 32px;
+    position: absolute;
+    background: linear-gradient(#666, #333);
+    border: 2px solid #999;
+}
+
+.player {
+    height: 32px;
+    width: 32px;
+    background-color: mediumseagreen;
+    position: absolute;
+    border-radius: 50%;
+}
