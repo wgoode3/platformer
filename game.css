@@ -10,19 +10,17 @@ body {
     overflow: hidden;
 }
 
-/* div {
-    line-height: 0;
-} */
-
 span {
     line-height: 32px;
 }
 
 #game {
-    width: 640px;
-    height: 320px;
+    width: 1200px;
+    height: 640px;
+    margin: 0 auto;
     position: relative;
-    margin: 100px auto;
+    overflow: hidden;
+    /* overflow-x: scroll; */
 }
 
 .block {
@@ -48,7 +46,7 @@ button {
 }
 
 #center {
-    width: 500px;
+    width: 1200px;
     margin: 0 auto;
 }
 

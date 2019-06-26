@@ -6,23 +6,23 @@ let currentTime = new Date();
 
 // draw the world based on this array
 // 0 - empty, 1 - floor / wall blocks
-const WORLD1 = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1],
-    [1, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 1, 0 ,0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1],
-    [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]
-];
+// const WORLD1 = [
+//     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//     [1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1],
+//     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+//     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+//     [1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1],
+//     [1, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 1, 0 ,0, 0, 0, 0, 0, 0, 0, 1],
+//     [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+//     [1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1],
+//     [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]
+// ];
 
 // create a list of game objects
 for(let i=0; i<WORLD1.length; i++) {
     for(let j=0; j<WORLD1[i].length; j++) {
-        if(WORLD1[i][j]) {
+        if(WORLD1[i][j] === "1") {
             objects.push(
                 new GameObject("block", new Vector2D(j*blockSize, i*blockSize))
             );
@@ -84,16 +84,34 @@ function applyUpdates() {
     }
 }
 
-// resets the game
-document.getElementById("reset").addEventListener("click", function(e) {
-    // makes the button lose focus so space doesn't reclick it
-    e.target.blur(); 
+const windowWidth = 1200;
+function camera() {
+    let player = document.getElementById(`${playerIndex}`);
+    let rect = player.getBoundingClientRect();
+    let gamewindow = document.getElementById("game");
+    if(rect.right > window.innerWidth / 2) {
+        gamewindow.scrollLeft += 2;
+    }
+    if(rect.top > 3000) {
+        resetGame();
+    }
+}
+
+// // resets the game
+// document.getElementById("reset").addEventListener("click", function(e) {
+//     // makes the button lose focus so space doesn't reclick it
+//     e.target.blur(); 
+//     resetGame();
+// });
+
+function resetGame() {
     let player = objects[playerIndex];
     player.location = new Vector2D(playerStart.x, playerStart.y);
     player.vx = 0;
     player.vy = 0;
     player.hasChanged = true;
-});
+    document.getElementById("game").scrollLeft = 0;
+}
 
 // startup
 drawGameboard();
@@ -110,6 +128,9 @@ const gameLoop = setInterval(function(){
 
     // move the user
     movePlayer();
+    
+    // move the camera
+    camera();
 
     // change positions for things that have been moved
     applyUpdates();

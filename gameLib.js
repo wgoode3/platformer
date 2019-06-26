@@ -58,7 +58,6 @@ class Player extends GameObject {
 
     checkCollisions(position) {
 
-        // TODO - get rid of the magic number 32
         function checkCollision(obj1, obj2) {
             let w = blockSize;
             let h = blockSize;
