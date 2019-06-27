@@ -1,40 +1,33 @@
 // various game constants
 const game = document.getElementById("game");
-const objects = [];
+let objects = [];
 let timeDelta = targetRefreshRate;
 let currentTime = new Date();
+let level = 1;
 
-// draw the world based on this array
-// 0 - empty, 1 - floor / wall blocks
-// const WORLD1 = [
-//     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-//     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-//     [1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1],
-//     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-//     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-//     [1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1],
-//     [1, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 1, 0 ,0, 0, 0, 0, 0, 0, 0, 1],
-//     [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1],
-//     [1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1],
-//     [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]
-// ];
-
+let playerIndex; 
 // create a list of game objects
-for(let i=0; i<WORLD1.length; i++) {
-    for(let j=0; j<WORLD1[i].length; j++) {
-        if(WORLD1[i][j] === "1") {
-            objects.push(
-                new GameObject("block", new Vector2D(j*blockSize, i*blockSize))
-            );
+function setScene(level) {
+    objects = [];
+    for(let i=0; i<level.length; i++) {
+        for(let j=0; j<level[i].length; j++) {
+            if(level[i][j] === "1") {
+                objects.push(
+                    new GameObject("block", new Vector2D(j*blockSize, i*blockSize))
+                );
+            } else if(level[i][j] === "2") {
+                objects.push(
+                    new Goal("goal", new Vector2D(j*blockSize, i*blockSize))
+                );
+            }
         }
     }
+    playerIndex = objects.length;
+    // let's add in the player as well
+    objects.push(
+        new Player("player", new Vector2D(playerStart.x, playerStart.y), 1, 1, true, true)
+    );
 }
-
-// let's add in the player as well
-const playerIndex = objects.length;
-objects.push(
-    new Player("player", new Vector2D(playerStart.x, playerStart.y), 1, 1, true, true)
-);
 
 function drawGameboard() {
     let s = "";
@@ -89,7 +82,10 @@ function camera() {
     let player = document.getElementById(`${playerIndex}`);
     let rect = player.getBoundingClientRect();
     let gamewindow = document.getElementById("game");
-    if(rect.right > window.innerWidth / 2) {
+    if(rect.right < window.innerWidth * 0.45) {
+        gamewindow.scrollLeft -= 2;
+    }
+    if(rect.left > window.innerWidth * 0.45) {
         gamewindow.scrollLeft += 2;
     }
     if(rect.top > 3000) {
@@ -114,6 +110,7 @@ function resetGame() {
 }
 
 // startup
+setScene(WORLD1);
 drawGameboard();
 
 const gameLoop = setInterval(function(){

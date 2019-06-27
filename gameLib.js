@@ -66,7 +66,7 @@ class Player extends GameObject {
             return collideX && collideY;
         }
 
-        let notPlayer = objects.filter(o => o.sprite === "block");
+        let notPlayer = objects.filter(o => o.sprite !== "player");
         for(let o of notPlayer) {
             if(checkCollision(position, o.location)) {
                 // if we collide return what we collded with
@@ -101,7 +101,12 @@ class Player extends GameObject {
         if(collided_with === null) {
             this.location.x = newPosition.x;
         } else {
-            this.vx = 0;
+            if(collided_with.is_trigger) {
+                console.log("hello");
+                collided_with.trigger();
+            } else {
+                this.vx = 0;
+            }
         }
         // try to move up and down
         newPosition.y += this.vy * timeDelta;
@@ -110,8 +115,12 @@ class Player extends GameObject {
             this.location.y = newPosition.y;
             this.onGround = false;
         } else {
-            this.vy = 0;
-            this.onGround = true;
+            if(collided_with.is_trigger) {
+                collided_with.trigger();
+            } else {
+                this.vy = 0;
+                this.onGround = true;
+            }
         }
         // prevent the user from going too fast
         if(this.vx > maxSpeed) {
@@ -126,6 +135,34 @@ class Player extends GameObject {
         if(this.onGround) {
             this.vy -= jumpVelocity;
             this.onGround = false;
+        }
+    }
+}
+
+class Goal extends GameObject {
+    constructor(sprite, location, layer=0, mass=1, hasCollider=true, hasPhysics=false) {
+        super(sprite, location, layer, mass, hasCollider, hasPhysics);
+        this.is_trigger=true;
+    }
+    trigger() {
+        if(level === 1) {
+            // set the level to world2
+            setScene(WORLD2);
+            drawGameboard();
+            resetGame();
+            level = 2;
+        } else if(level === 2) {
+            // set the level to world3
+            setScene(WORLD3);
+            drawGameboard();
+            resetGame();
+            level = 3;
+        } else {
+            // set the level to world1
+            setScene(WORLD1);
+            drawGameboard();
+            resetGame();
+            level = 1;
         }
     }
 }
