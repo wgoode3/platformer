@@ -2,7 +2,7 @@
 // TODO: migrate as many of these to constants.js as makes sense
 const game = document.getElementById("game");
 let objects = [];
-let timeDelta = targetRefreshRate;
+let timeDelta = targetFrameTime;
 let currentTime = new Date();
 let level = 1;
 let playerIndex;
