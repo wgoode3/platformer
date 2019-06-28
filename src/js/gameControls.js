@@ -1,12 +1,15 @@
 // player controls
 
-const upKey    = 38,
-      downKey  = 40,
-      leftKey  = 37, 
-      rightKey = 39, 
-      jumpKey  = 32;
+
+// keycodes for arrow keys and spacebar
+const upKey = 38,
+    downKey = 40,
+    leftKey = 37, 
+   rightKey = 39, 
+    jumpKey = 32;
 
 
+// indicates which keys are actively being pressed
 const keyMap = {
     'up':    false,
     'left':  false,
@@ -15,11 +18,15 @@ const keyMap = {
     'jump':  false
 };
 
+
+// indicates what direction(s) the player is moving in
 const axis = {
     x: 0,
     y: 0
 };
 
+
+// listens for pressing down on a key
 document.onkeydown = function(a){
     if (a.keyCode == leftKey) {
         keyMap.left = true;
@@ -38,6 +45,8 @@ document.onkeydown = function(a){
     }
 }
 
+
+// listens for lifting up a key
 document.onkeyup = function(a){
     if (a.keyCode == leftKey) {
         keyMap.left = false;
@@ -56,6 +65,9 @@ document.onkeyup = function(a){
     }
 }
 
+
+// sets the axis to the correct directions
+// based on the keys the user is pressing
 function setAxis() {
     axis.x = 0;
     axis.y = 0;

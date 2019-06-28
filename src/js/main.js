@@ -1,34 +1,42 @@
 // various game constants
+// TODO: migrate as many of these to constants.js as makes sense
 const game = document.getElementById("game");
 let objects = [];
 let timeDelta = targetRefreshRate;
 let currentTime = new Date();
 let level = 1;
+let playerIndex;
 
-let playerIndex; 
+
 // create a list of game objects
 function setScene(level) {
     objects = [];
     for(let i=0; i<level.length; i++) {
         for(let j=0; j<level[i].length; j++) {
+            // blocks are 1
             if(level[i][j] === "1") {
                 objects.push(
                     new GameObject("block", new Vector2D(j*blockSize, i*blockSize))
                 );
-            } else if(level[i][j] === "2") {
+            } 
+            // the goal is 2
+            else if(level[i][j] === "2") {
                 objects.push(
                     new Goal("goal", new Vector2D(j*blockSize, i*blockSize))
                 );
             }
         }
     }
+    // player will always be the last object added, for convenience
+    // also it ensures the player is rendered on top of everything else
     playerIndex = objects.length;
-    // let's add in the player as well
     objects.push(
         new Player("player", new Vector2D(playerStart.x, playerStart.y), 1, 1, true, true)
     );
 }
 
+
+// draw all of the game objects into <div id="game"></div>
 function drawGameboard() {
     let s = "";
     for(let i=0; i<objects.length; i++) {
@@ -41,6 +49,8 @@ function drawGameboard() {
     game.innerHTML = s;
 }
 
+
+// TODO: consider moving this into the Player class
 // player is a class controlled by user input
 // we provide all of the forces on the player component here
 function movePlayer(){
@@ -51,10 +61,16 @@ function movePlayer(){
     // apply gravity
     player.applyForce(gravity, new Vector2D(0, 1));
     // if the player is jumping call the jump method
+    // TODO: maybe some sort of jump cooldown?
+    // currently jumps constantly when spacebar is held down
     if(keyMap.jump) {
         player.jump();
     }
     // apply friction
+    // TODO: detect player movment that is oscillating back and forth
+    //       when keys are not depressed, and zero it out
+    //       or put in constants that dampen these forces
+    //       spring, mass, dashpot system time?
     if(player.onGround) {
         if(player.vx > 0) {
             player.applyForce(friction, new Vector2D(-1, 0));
@@ -66,6 +82,8 @@ function movePlayer(){
     player.hasChanged = true;
 }
 
+
+// all objects that .hasChanged should have their positions updated
 function applyUpdates() {
     for(let i=0; i<objects.length; i++) {
         if(objects[i].hasChanged) {
@@ -77,6 +95,10 @@ function applyUpdates() {
     }
 }
 
+
+// have the "camera" follow the player around
+// actually scrolls the #game div to the left or right
+// to keep the player on screen
 const windowWidth = 1200;
 function camera() {
     let player = document.getElementById(`${playerIndex}`);
@@ -84,24 +106,22 @@ function camera() {
     let gamewindow = document.getElementById("game");
     if(rect.right < window.innerWidth * 0.45) {
         if(gamewindow.scrollLeft > 600) {
-            gamewindow.scrollLeft -= 2;
+            gamewindow.scrollLeft -= 6;
         }
     }
     if(rect.left > window.innerWidth * 0.45) {
-        gamewindow.scrollLeft += 2;
+        gamewindow.scrollLeft += 6;
     }
+    // if the player falls off the platform, return them to the start
     if(rect.top > 3000) {
         resetGame();
     }
 }
 
-// // resets the game
-// document.getElementById("reset").addEventListener("click", function(e) {
-//     // makes the button lose focus so space doesn't reclick it
-//     e.target.blur(); 
-//     resetGame();
-// });
 
+// return the player to the beginning position
+// also zero out their velocity
+// also scroll back to the start
 function resetGame() {
     let player = objects[playerIndex];
     player.location = new Vector2D(playerStart.x, playerStart.y);
@@ -111,11 +131,16 @@ function resetGame() {
     document.getElementById("game").scrollLeft = 0;
 }
 
-// startup
+
+// on page load set the game to world1
+// then draw out all of the blocks into the #game div
 setScene(WORLD1);
 drawGameboard();
 
-const gameLoop = setInterval(function(){
+
+// the gameloop will call functions that need to run every frame
+// the gameloop will run every "targetRefreshRate" milliseconds
+let gameLoop = setInterval( function() {
 
     // calculate timeDelta
     let now = new Date();
@@ -134,4 +159,4 @@ const gameLoop = setInterval(function(){
     // change positions for things that have been moved
     applyUpdates();
 
-}, targetRefreshRate);
+}, targetFrameTime);

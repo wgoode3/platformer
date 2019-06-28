@@ -1,3 +1,5 @@
+/* CSS reset and styles to apply to everything */
+
 * {
     margin: 0;
     padding: 0;
@@ -5,13 +7,14 @@
     font-family: monospace;
 }
 
+/* Skybox blue background for everything */
+
 body {
     background: linear-gradient(#9ff, #6cf) fixed;
 }
 
-span {
-    line-height: 32px;
-}
+/* Size for the game field is currently fixed */
+/* TODO: media queries for the size? */
 
 #game {
     width: 1200px;
@@ -21,6 +24,8 @@ span {
     overflow: hidden;
 }
 
+/* The blocks that are drawn into the world */
+
 .block {
     height: 32px;
     width: 32px;
@@ -29,6 +34,9 @@ span {
     border: 2px solid #999;
 }
 
+/* The player is drawn this way */
+/* TODO: change the player to something more interesting */
+
 .player {
     height: 32px;
     width: 32px;
@@ -36,6 +44,10 @@ span {
     background-color: mediumseagreen;
     border-radius: 50%;
 }
+
+/* The goal the player is trying to reach */
+/* Using SVG to make it a gold star shape */
+/* Using CSS animations to make it rotate */
 
 .goal {
     position: absolute;
@@ -51,9 +63,6 @@ span {
 }
 
 @keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    } 100% {
-        transform: rotate(360deg);
-    }
+    0% { transform: rotate(0deg); } 
+    100% { transform: rotate(360deg); }
 }
