@@ -102,24 +102,29 @@ class Player extends GameObject {
             this.location.x = newPosition.x;
         } else {
             if(collided_with.is_trigger) {
-                console.log("hello");
-                collided_with.trigger();
+                return collided_with.trigger();
             } else {
-                this.vx = 0;
+                // push away from the wall (pevents hanging on walls)
+                newPosition.x = this.location.x;
+                this.vx = -0.1 * this.vx;
+                newPosition.x += this.vx * timeDelta;
             }
         }
-        // try to move up and down
+        
         newPosition.y += this.vy * timeDelta;
+        // try to move up and down
         collided_with = this.checkCollisions(newPosition);
         if(collided_with === null) {
             this.location.y = newPosition.y;
             this.onGround = false;
         } else {
             if(collided_with.is_trigger) {
-                collided_with.trigger();
+                return collided_with.trigger();
             } else {
+                if(this.vy > 0) {
+                    this.onGround = true;
+                }
                 this.vy = 0;
-                this.onGround = true;
             }
         }
         // prevent the user from going too fast
@@ -128,7 +133,7 @@ class Player extends GameObject {
         } else if(-this.vx > maxSpeed) {
             this.vx = -maxSpeed;
         }
-        this.hasChanged = false;
+        // this.hasChanged = false;
     }
 
     jump() {

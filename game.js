@@ -83,7 +83,9 @@ function camera() {
     let rect = player.getBoundingClientRect();
     let gamewindow = document.getElementById("game");
     if(rect.right < window.innerWidth * 0.45) {
-        gamewindow.scrollLeft -= 2;
+        if(gamewindow.scrollLeft > 600) {
+            gamewindow.scrollLeft -= 2;
+        }
     }
     if(rect.left > window.innerWidth * 0.45) {
         gamewindow.scrollLeft += 2;
