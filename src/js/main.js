@@ -55,22 +55,22 @@ function drawGameboard() {
 // we provide all of the forces on the player component here
 function movePlayer(){
     let player = objects[playerIndex];
+    
     // apply forces when the user moves left and right
     // ignore up and down inputs
     player.applyForce(moveForce, new Vector2D(axis.x, 0));
+    
     // apply gravity
     player.applyForce(gravity, new Vector2D(0, 1));
+    
     // if the player is jumping call the jump method
     // TODO: maybe some sort of jump cooldown?
     // currently jumps constantly when spacebar is held down
     if(keyMap.jump) {
         player.jump();
     }
+    
     // apply friction when player stops moving and is on the ground
-    // TODO: detect player movement that is oscillating back and forth
-    //       when keys are not depressed, and zero it out
-    //       or put in constants that dampen these forces
-    //       spring, mass, dashpot system time?
     if(player.onGround && axis.x === 0) {
         if(player.vx > 0) {
             player.applyForce(friction, new Vector2D(-1, 0));
@@ -78,6 +78,7 @@ function movePlayer(){
             player.applyForce(friction, new Vector2D(1, 0));
         }
     }
+    
     // the player always has forces applied
     player.hasChanged = true;
 }
@@ -97,19 +98,16 @@ function applyUpdates() {
 
 
 // have the "camera" follow the player around
-// actually scrolls the #game div to the left or right
-// to keep the player on screen
+// actually scrolls the #game div to the left or right to keep player on screen
 const windowWidth = 1200;
 function camera() {
-    let player = document.getElementById(`${playerIndex}`);
-    let rect = player.getBoundingClientRect();
-    let gamewindow = document.getElementById("game");
-    let cutoff = window.innerWidth * 0.45
+    let rect = document.getElementById(`${playerIndex}`).getBoundingClientRect();
+    let cutoff = window.innerWidth * 0.45;
     if(rect.left > cutoff) {
-        gamewindow.scrollLeft += (rect.left - cutoff);
+        game.scrollLeft += (rect.left - cutoff);
     } 
-    else if(rect.right < cutoff && gamewindow.scrollLeft > 600) {
-        gamewindow.scrollLeft -= (cutoff - rect.right);
+    else if(rect.right < cutoff) {
+        game.scrollLeft -= (cutoff - rect.right);
     }
     // if the player falls off the platform, return them to the start
     if(rect.top > 3000) {
@@ -127,7 +125,7 @@ function resetGame() {
     player.vx = 0;
     player.vy = 0;
     player.hasChanged = true;
-    document.getElementById("game").scrollLeft = 0;
+    game.scrollLeft = 0;
 }
 
 
@@ -157,7 +155,5 @@ let gameLoop = setInterval( function() {
 
     // change positions for things that have been moved
     applyUpdates();
-
-    // console.log(objects[playerIndex].vx);
 
 }, targetFrameTime);
