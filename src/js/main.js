@@ -66,12 +66,12 @@ function movePlayer(){
     if(keyMap.jump) {
         player.jump();
     }
-    // apply friction
-    // TODO: detect player movment that is oscillating back and forth
+    // apply friction when player stops moving and is on the ground
+    // TODO: detect player movement that is oscillating back and forth
     //       when keys are not depressed, and zero it out
     //       or put in constants that dampen these forces
     //       spring, mass, dashpot system time?
-    if(player.onGround) {
+    if(player.onGround && axis.x === 0) {
         if(player.vx > 0) {
             player.applyForce(friction, new Vector2D(-1, 0));
         } else if(player.vx < 0) {
@@ -104,13 +104,12 @@ function camera() {
     let player = document.getElementById(`${playerIndex}`);
     let rect = player.getBoundingClientRect();
     let gamewindow = document.getElementById("game");
-    if(rect.right < window.innerWidth * 0.45) {
-        if(gamewindow.scrollLeft > 600) {
-            gamewindow.scrollLeft -= 6;
-        }
-    }
-    if(rect.left > window.innerWidth * 0.45) {
-        gamewindow.scrollLeft += 6;
+    let cutoff = window.innerWidth * 0.45
+    if(rect.left > cutoff) {
+        gamewindow.scrollLeft += (rect.left - cutoff);
+    } 
+    else if(rect.right < cutoff && gamewindow.scrollLeft > 600) {
+        gamewindow.scrollLeft -= (cutoff - rect.right);
     }
     // if the player falls off the platform, return them to the start
     if(rect.top > 3000) {
@@ -158,5 +157,7 @@ let gameLoop = setInterval( function() {
 
     // change positions for things that have been moved
     applyUpdates();
+
+    // console.log(objects[playerIndex].vx);
 
 }, targetFrameTime);

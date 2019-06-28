@@ -148,13 +148,15 @@ class Player extends GameObject {
         }
 
         // prevent the user from going too fast
+        // also zero out really small speeds
         if(this.vx > maxSpeed) {
             this.vx = maxSpeed;
         } else if(-this.vx > maxSpeed) {
             this.vx = -maxSpeed;
+        } else if(Math.abs(this.vx) < 0.01) {
+            this.vx = 0;
         }
 
-        // TODO: prevent the user falling faster than terminal velocity?
     }
 
     // if the user is on the ground then give them an instantaneous
