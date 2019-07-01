@@ -10,14 +10,18 @@
 /* Skybox blue background for everything */
 
 body {
-    background: linear-gradient(#9ff, #6cf) fixed;
+    /* background: linear-gradient(#9ff, #6cf) fixed; */
+    /* background-image: url("../../assets/sprites/Vector/vector_backgrounds.svg"); */
+    background-image: url("../../assets/sprites/PNG/Backgrounds/blue_grass.png");
+    /* background-size: contain; */
+    /* overflow: hidden; */
 }
 
 /* Size for the game field is currently fixed */
 /* TODO: media queries for the size? */
 
 #game {
-    width: 1200px;
+    width: 1140px;
     height: 640px;
     margin: 0 auto;
     position: relative;
@@ -26,13 +30,17 @@ body {
 
 /* The blocks that are drawn into the world */
 
-.block {
+.grass-left, .grass-mid, .grass-right, .grass-center {
     height: 32px;
     width: 32px;
     position: absolute;
-    background: linear-gradient(#666, #333);
-    border: 2px solid #999;
+    background-size: cover;
 }
+
+.grass-left { background-image: url("../../assets/sprites/PNG/Ground/Grass/grassLeft.png"); }
+.grass-mid { background-image: url("../../assets/sprites/PNG/Ground/Grass/grassMid.png"); }
+.grass-right { background-image: url("../../assets/sprites/PNG/Ground/Grass/grassRight.png"); }
+.grass-center { background-image: url("../../assets/sprites/PNG/Ground/Grass/grassCenter.png"); }
 
 /* The player is drawn this way */
 /* TODO: change the player to something more interesting */
@@ -41,8 +49,27 @@ body {
     height: 32px;
     width: 32px;
     position: absolute;
-    background-color: mediumseagreen;
-    border-radius: 50%;
+    /* background-color: mediumseagreen; */
+    background-image: url("../../assets/sprites/PNG/Players/128x256/Green/alienGreen_stand.png");
+    background-size: cover;
+    background-position-y: 32px;
+    /* border-radius: 50%; */
+}
+
+.move {
+    animation-name: move;
+    animation-duration: 1000ms;
+    animation-iteration-count: infinite;
+}
+
+@keyframes move {
+    0% { background-image: url("../../assets/sprites/PNG/Players/128x256/Green/alienGreen_walk1.png"); }
+    50% { background-image: url("../../assets/sprites/PNG/Players/128x256/Green/alienGreen_walk2.png"); }
+    100% { background-image: url("../../assets/sprites/PNG/Players/128x256/Green/alienGreen_walk1.png"); }
+}
+
+.left {
+    transform: scalex(-1);
 }
 
 /* The goal the player is trying to reach */
@@ -66,3 +93,14 @@ body {
     0% { transform: rotate(0deg); } 
     100% { transform: rotate(360deg); }
 }
+
+
+/* for some reason this really lags the game... */
+/* .goal {
+    position: absolute;
+    height: 32px;
+    width: 32px;
+    line-height: 32px;
+    background-size: cover;
+    background-image: url("../../assets/sprites/PNG/Tiles/signExit.png");
+} */

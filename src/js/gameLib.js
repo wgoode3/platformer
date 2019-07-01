@@ -45,6 +45,7 @@ class Player extends GameObject {
         this.vy = 0;
         this.forces = [];
         this.onGround = false;
+        this.moveState = 0;
     }
 
     // adds a force to be applied
@@ -57,11 +58,16 @@ class Player extends GameObject {
     // check for collisions with gameObjects that are not the player
     checkCollisions(position) {
 
+        // AABB collision
         function checkCollision(obj1, obj2) {
-            let w = blockSize;
-            let h = blockSize;
-            var collideX = obj1.x < obj2.x + w && obj1.x + w > obj2.x;
-            var collideY = obj1.y < obj2.y + h && obj1.y + h > obj2.y;
+            // TODO: remove these magic numbers
+            // obj1 is the player and obj2 are the blocks
+            let w1 = 32;
+            let h1 = 32;
+            let w2 = 32;
+            let h2 = 32;
+            let collideX = obj1.x < obj2.x + w2 && obj1.x + w1 > obj2.x;
+            let collideY = obj1.y < obj2.y + h2 && obj1.y + h1 > obj2.y;
             return collideX && collideY;
         }
 

@@ -8,18 +8,29 @@ let level = 1;
 let playerIndex;
 
 
+// what class to apply for each tile value 
+const tileMap = {
+    "0": "empty",
+    "1": "grass-mid",
+    "2": "goal",
+    "3": "grass-left",
+    "4": "grass-right",
+    "5": "grass-center"
+};
+
+
 // create a list of game objects
 function setScene(level) {
     objects = [];
     for(let i=0; i<level.length; i++) {
         for(let j=0; j<level[i].length; j++) {
-            // blocks are 1
-            if(level[i][j] === "1") {
+            // check tileMap for the correct class to apply, goal is different so handle seperately
+            if (level[i][j] !== "0" && level[i][j] !== "2") {
                 objects.push(
-                    new GameObject("block", new Vector2D(j*blockSize, i*blockSize))
+                    new GameObject(tileMap[level[i][j]], new Vector2D(j*blockSize, i*blockSize))
                 );
-            } 
-            // the goal is 2
+            }
+            // goal is a different class than the others...
             else if(level[i][j] === "2") {
                 objects.push(
                     new Goal("goal", new Vector2D(j*blockSize, i*blockSize))
@@ -59,6 +70,19 @@ function movePlayer(){
     // apply forces when the user moves left and right
     // ignore up and down inputs
     player.applyForce(moveForce, new Vector2D(axis.x, 0));
+
+    if(player.vx === 0){
+        document.getElementById(`${playerIndex}`).classList.remove("move");
+    } else {
+        document.getElementById(`${playerIndex}`).classList.add("move");
+    }
+
+    if(axis.x === 1){
+        document.getElementById(`${playerIndex}`).classList.remove("left");
+    } 
+    else if(axis.x === -1) {
+        document.getElementById(`${playerIndex}`).classList.add("left");
+    }
     
     // apply gravity
     player.applyForce(gravity, new Vector2D(0, 1));
