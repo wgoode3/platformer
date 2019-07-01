@@ -159,7 +159,7 @@ class Player extends GameObject {
             this.vx = maxSpeed;
         } else if(-this.vx > maxSpeed) {
             this.vx = -maxSpeed;
-        } else if(Math.abs(this.vx) < 0.01) {
+        } else if(Math.abs(this.vx) < 0.015) {
             this.vx = 0;
         }
 

@@ -49,16 +49,14 @@ body {
     height: 32px;
     width: 32px;
     position: absolute;
-    /* background-color: mediumseagreen; */
     background-image: url("../../assets/sprites/PNG/Players/128x256/Green/alienGreen_stand.png");
     background-size: cover;
     background-position-y: 32px;
-    /* border-radius: 50%; */
 }
 
 .move {
     animation-name: move;
-    animation-duration: 1000ms;
+    animation-duration: 500ms;
     animation-iteration-count: infinite;
 }
 

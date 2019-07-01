@@ -123,16 +123,20 @@ function applyUpdates() {
 
 // have the "camera" follow the player around
 // actually scrolls the #game div to the left or right to keep player on screen
+let start = 0;
 const windowWidth = 1200;
 function camera() {
     let rect = document.getElementById(`${playerIndex}`).getBoundingClientRect();
     let cutoff = window.innerWidth * 0.45;
     if(rect.left > cutoff) {
         game.scrollLeft += (rect.left - cutoff);
+        // document.getElementsByTagName("BODY")[0].style.backgroundPosition = `${start--}px 0px`;
     } 
     else if(rect.right < cutoff) {
         game.scrollLeft -= (cutoff - rect.right);
+        // document.getElementsByTagName("BODY")[0].style.backgroundPosition = `${start++}px 0px`;
     }
+
     // if the player falls off the platform, return them to the start
     if(rect.top > 3000) {
         resetGame();
