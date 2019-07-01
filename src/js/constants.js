@@ -7,5 +7,5 @@ let jumpVelocity = 0.8,
         friction = 2.5,
          gravity = 2.5,
        moveForce = 1.5,
-       targetFPS = 120,
+       targetFPS = 60,
  targetFrameTime = 1/targetFPS*1000;
