@@ -43,15 +43,14 @@ body {
 .grass-center { background-image: url("../../assets/sprites/PNG/Ground/Grass/grassCenter.png"); }
 
 /* The player is drawn this way */
-/* TODO: change the player to something more interesting */
 
 .player {
-    height: 32px;
+    height: 40px;
     width: 32px;
     position: absolute;
     background-image: url("../../assets/sprites/PNG/Players/128x256/Green/alienGreen_stand.png");
     background-size: cover;
-    background-position-y: 32px;
+    background-position-y: 40px;
 }
 
 .move {

@@ -9,3 +9,5 @@ let jumpVelocity = 0.8,
        moveForce = 1.5,
        targetFPS = 60,
  targetFrameTime = 1/targetFPS*1000;
+
+playerStart.y -= 8;

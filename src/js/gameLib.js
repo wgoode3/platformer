@@ -63,7 +63,7 @@ class Player extends GameObject {
             // TODO: remove these magic numbers
             // obj1 is the player and obj2 are the blocks
             let w1 = 32;
-            let h1 = 32;
+            let h1 = 40;
             let w2 = 32;
             let h2 = 32;
             let collideX = obj1.x < obj2.x + w2 && obj1.x + w1 > obj2.x;

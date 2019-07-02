@@ -10,7 +10,6 @@ let playerIndex;
 
 // what class to apply for each tile value 
 const tileMap = {
-    "0": "empty",
     "1": "grass-mid",
     "2": "goal",
     "3": "grass-left",
@@ -25,7 +24,7 @@ function setScene(level) {
     for(let i=0; i<level.length; i++) {
         for(let j=0; j<level[i].length; j++) {
             // check tileMap for the correct class to apply, goal is different so handle seperately
-            if (level[i][j] !== "0" && level[i][j] !== "2") {
+            if (level[i][j] !== " " && level[i][j] !== "2") {
                 objects.push(
                     new GameObject(tileMap[level[i][j]], new Vector2D(j*blockSize, i*blockSize))
                 );
